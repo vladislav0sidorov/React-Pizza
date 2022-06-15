@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,KAAK,CAAC;EACJ,UAAU,EAAE,MAAM;EAClB,OAAO,EAAE,KAAK;CASf;;AAXD,AAIE,KAJG,CAIH,IAAI,CAAC;EACH,SAAS,EAAE,IAAI;EACf,MAAM,EAAE,SAAS;CAClB;;AAPH,AAQE,KARG,CAQH,YAAY,CAAC;EACX,SAAS,EAAE,IAAI;CAChB",
+    "sources": [
+        "NotFoundBlock.module.scss"
+    ],
+    "names": [],
+    "file": "NotFoundBlock.module.css"
+}
