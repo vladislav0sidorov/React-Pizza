@@ -1,5 +1,7 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { setCategoryId } from '../redux/slices/filterSlice'; // Сортировка через Redux-toolkit
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
@@ -8,19 +10,23 @@ import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const { categoryId, sort } = useSelector((state) => state.filterSlice);
+
   const { searchValue } = React.useContext(SearchContext);
   const [pizzasItems, setPizzasItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true); //Скелетон
-  const [categoryId, setCategoryId] = React.useState(0); //Глобальная сортировка по категориям
   const [currentPage, setCurrentPage] = React.useState(1); //Изменение страниц
-  const [sortType, setSortType] = React.useState({ name: 'популярности', sortProperty: 'rating' }); //Глобальная сортировка по типу
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
 
   //* mockapi некорректно присылает пиццы
   React.useEffect(() => {
     setIsLoading(true);
-
-    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
-    const sortBy = sortType.sortProperty.replace('-', '');
+    const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
+    const sortBy = sort.sortProperty.replace('-', '');
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
@@ -33,7 +39,7 @@ const Home = () => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   const pizzasItemsSmallCode = pizzasItems.map((objPizzas) => (
     <PizzaBlock key={objPizzas.id} {...objPizzas} image={objPizzas.imageUrl} />
@@ -43,8 +49,8 @@ const Home = () => {
   return (
     <>
       <div className="content__top">
-        <Categories value={categoryId} onChangeCategory={(index) => setCategoryId(index)} />
-        <Sort value={sortType} onChangeSort={(index) => setSortType(index)} />
+        <Categories value={categoryId} onChangeCategory={onChangeCategory} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzasItemsSmallCode}</div>
