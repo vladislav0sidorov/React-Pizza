@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 
-import { setCategoryId } from '../redux/slices/filterSlice'; // Сортировка через Redux-toolkit
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice'; // Сортировка через Redux-toolkit
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
@@ -11,15 +12,17 @@ import { SearchContext } from '../App';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { categoryId, sort } = useSelector((state) => state.filterSlice);
+  const { categoryId, sort, currentPage } = useSelector((state) => state.filterSlice);
 
   const { searchValue } = React.useContext(SearchContext);
   const [pizzasItems, setPizzasItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true); //Скелетон
-  const [currentPage, setCurrentPage] = React.useState(1); //Изменение страниц
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
+  };
+  const onChangePage = (number) => {
+    dispatch(setCurrentPage(number));
   };
 
   //* mockapi некорректно присылает пиццы
@@ -30,14 +33,15 @@ const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    fetch(
-      `https://62a5b96a430ba53411cb6ce7.mockapi.io/items?page=${currentPage}&limit=8&${category}&sortBy=${sortBy}&order=${order}${search}`,
-    )
-      .then((res) => res.json())
-      .then((PizzasData) => {
-        setPizzasItems(PizzasData);
+    axios
+      .get(
+        `https://62a5b96a430ba53411cb6ce7.mockapi.io/items?page=${currentPage}&limit=8&${category}&sortBy=${sortBy}&order=${order}${search}`,
+      )
+      .then((response) => {
+        setPizzasItems(response.data);
         setIsLoading(false);
       });
+
     window.scrollTo(0, 0);
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
@@ -54,7 +58,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzasItemsSmallCode}</div>
-      <Pagination onCurrentPage={(numberPage) => setCurrentPage(numberPage)} />
+      <Pagination currentPage={currentPage} onCurrentPage={onChangePage} />
     </>
   );
 };

@@ -1,10 +1,32 @@
 import React from 'react';
 import { SearchContext } from '../../App';
+import debounce from 'lodash.debounce';
 
 import styles from './Searh.module.scss';
 
 const Search = () => {
-  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  const [value, setValue] = React.useState('');
+  const { setSearchValue } = React.useContext(SearchContext);
+  const inputRef = React.useRef();
+
+  const onClickClean = () => {
+    setSearchValue('');
+    setValue('');
+    inputRef.current.focus();
+  };
+
+  // две послдение функции о debounce (реализовано при помощи 2х useState)
+  const updateChangeValue = React.useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 400),
+    [],
+  );
+
+  const onChangeInput = (changeText) => {
+    setValue(changeText.target.value);
+    updateChangeValue(changeText.target.value);
+  };
 
   return (
     <div className="search">
@@ -41,14 +63,15 @@ const Search = () => {
           />
         </svg>
         <input
-          value={searchValue}
-          onChange={(changeText) => setSearchValue(changeText.target.value)}
+          ref={inputRef}
+          value={value}
+          onChange={onChangeInput}
           className={styles.search__imput}
           placeholder="Поиск пиццы..."
         />
-        {searchValue && (
+        {value && (
           <svg
-            onClick={() => setSearchValue('')}
+            onClick={onClickClean}
             className={styles.search__remove}
             data-name="Layer 1"
             height="200"
