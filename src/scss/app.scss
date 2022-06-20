@@ -296,12 +296,13 @@ body {
   }
 
   &--empty {
-    margin: 0 auto;
+    margin: 60px auto;
     width: 560px;
     text-align: center;
 
     h2 {
       font-size: 32px;
+      font-weight: 700;
       margin-bottom: 10px;
     }
 
