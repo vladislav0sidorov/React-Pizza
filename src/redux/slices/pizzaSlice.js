@@ -11,7 +11,7 @@ export const fetchPizzasById = createAsyncThunk('pizza/fetchPizzasByStatus', asy
 
 const initialState = {
   items: [],
-  status: '',
+  status: 'loading',
 };
 
 const pizzaSlice = createSlice({
@@ -25,6 +25,7 @@ const pizzaSlice = createSlice({
   extraReducers: {
     [fetchPizzasById.pending]: (state) => {
       state.status = 'loading';
+      state.items = [];
     },
     [fetchPizzasById.fulfilled]: (state, action) => {
       state.items = action.payload;
