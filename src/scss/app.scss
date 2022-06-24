@@ -24,7 +24,7 @@ body {
     font-size: 36px;
     font-weight: 800;
     margin: 35px 0;
-  } 
+  }
 
   &__items {
     display: grid;
@@ -331,5 +331,23 @@ body {
       font-weight: 600;
       font-size: 18px;
     }
+  }
+}
+.error-block {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  min-height: 38vh;
+  &__title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  &__text {
+    font-size: 18px;
+    line-height: 145.4%;
+    letter-spacing: 0.01em;
+    color: #777777;
   }
 }

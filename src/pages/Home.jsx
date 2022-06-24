@@ -1,9 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { fetchPizzasById } from '../redux/slices/pizzaSlice';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice'; // Сортировка через Redux-toolkit
 import Categories from '../components/Categories';
 import Sort, { arrSortList } from '../components/Sort';
@@ -19,10 +19,9 @@ const Home = () => {
   const isMounted = React.useRef(false);
 
   const { categoryId, sort, currentPage } = useSelector((state) => state.filterSlice);
+  const { items, status } = useSelector((state) => state.pizzaSlice);
 
   const { searchValue } = React.useContext(SearchContext);
-  const [pizzasItems, setPizzasItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true); //Скелетон
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -31,21 +30,23 @@ const Home = () => {
     dispatch(setCurrentPage(number));
   };
 
-  const fetchPizzas = () => {
-    setIsLoading(true);
+  const fetchPizzas = async () => {
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const sortBy = sort.sortProperty.replace('-', '');
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    axios
-      .get(
-        `https://62a5b96a430ba53411cb6ce7.mockapi.io/items?page=${currentPage}&limit=8&${category}&sortBy=${sortBy}&order=${order}${search}`,
-      )
-      .then((response) => {
-        setPizzasItems(response.data);
-        setIsLoading(false);
-      });
+    //* Сократил код при помощи asyng/await и отправил в Redux
+
+    dispatch(
+      fetchPizzasById({
+        order,
+        sortBy,
+        category,
+        search,
+        currentPage,
+      }),
+    );
   };
 
   //! Если был первый рендер - проверяем URl-параметры и сохраняем в Redux
@@ -86,7 +87,7 @@ const Home = () => {
     isMounted.current = true;
   }, [categoryId, sort.sortProperty, currentPage]);
 
-  const pizzasItemsSmallCode = pizzasItems.map((objPizzas) => (
+  const pizzasItemsSmallCode = items.map((objPizzas) => (
     <PizzaBlock key={objPizzas.id} {...objPizzas} image={objPizzas.imageUrl} />
   ));
   const skeletons = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
@@ -98,7 +99,16 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzasItemsSmallCode}</div>
+      {status === 'error' ? (
+        <div className="error-block">
+          <h2 className="error-block__title">Произошла маленькая ошибочка</h2>
+          <p className="error-block__text">Мы уже работаем над этим 🧰</p>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === 'loading' ? skeletons : pizzasItemsSmallCode}
+        </div>
+      )}
       <Pagination currentPage={currentPage} onCurrentPage={onChangePage} />
     </>
   );
