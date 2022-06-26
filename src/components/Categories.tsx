@@ -1,8 +1,12 @@
 import React from 'react';
 
-function Categories({value, onChangeCategory}) {
-  const arrCategories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
+type CategoriesPropsType = {
+  value: number;
+  onChangeCategory: any /**Позже типизируем */;
+};
 
+const Categories: React.FC<CategoriesPropsType> = ({ value, onChangeCategory }) => {
+  const arrCategories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 
   return (
     <div className="categories">
@@ -18,6 +22,6 @@ function Categories({value, onChangeCategory}) {
       </ul>
     </div>
   );
-}
+};
 
 export default Categories;

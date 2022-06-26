@@ -1,33 +1,35 @@
 import React from 'react';
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchPizzasById } from '../redux/slices/pizzaSlice';
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice'; // Сортировка через Redux-toolkit
+import { fetchPizzasById, selectPizzaData } from '../redux/slices/pizzaSlice';
+import {
+  selectFilter,
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from '../redux/slices/filterSlice'; // Сортировка через Redux-toolkit
 import Categories from '../components/Categories';
 import Sort, { arrSortList } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filterSlice);
-  const { items, status } = useSelector((state) => state.pizzaSlice);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizzaData);
 
-  const { searchValue } = React.useContext(SearchContext);
-
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
   };
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (numberPage: number) => {
+    dispatch(setCurrentPage(numberPage));
   };
 
   const fetchPizzas = async () => {
@@ -39,6 +41,7 @@ const Home = () => {
     //* Сократил код при помощи asyng/await и отправил в Redux
 
     dispatch(
+      // @ts-ignore решим позже дело (до редукса)
       fetchPizzasById({
         order,
         sortBy,
@@ -87,8 +90,10 @@ const Home = () => {
     isMounted.current = true;
   }, [categoryId, sort.sortProperty, currentPage]);
 
-  const pizzasItemsSmallCode = items.map((objPizzas) => (
-    <PizzaBlock key={objPizzas.id} {...objPizzas} image={objPizzas.imageUrl} />
+  const pizzasItemsSmallCode = items.map((objPizzas: any /**Позже */) => (
+    <Link to={`/pizza/${objPizzas.id}`} key={objPizzas.id}>
+      <PizzaBlock {...objPizzas} image={objPizzas.imageUrl} />
+    </Link>
   ));
   const skeletons = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
 

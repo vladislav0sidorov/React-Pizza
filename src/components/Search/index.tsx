@@ -1,29 +1,31 @@
 import React from 'react';
-import { SearchContext } from '../../App';
+import { useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
 
 import styles from './Searh.module.scss';
+import { setSearchValue } from '../../redux/slices/filterSlice';
 
-const Search = () => {
+const Search: React.FC = () => {
+  const dispatch = useDispatch();
   const [value, setValue] = React.useState('');
-  const { setSearchValue } = React.useContext(SearchContext);
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const onClickClean = () => {
+    dispatch(setSearchValue(''));
     setSearchValue('');
     setValue('');
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   // две послдение функции о debounce (реализовано при помощи 2х useState)
   const updateChangeValue = React.useCallback(
-    debounce((str) => {
-      setSearchValue(str);
+    debounce((str: string) => {
+      dispatch(setSearchValue(str));
     }, 400),
     [],
   );
 
-  const onChangeInput = (changeText) => {
+  const onChangeInput = (changeText: any /**Позже исправим */) => {
     setValue(changeText.target.value);
     updateChangeValue(changeText.target.value);
   };
