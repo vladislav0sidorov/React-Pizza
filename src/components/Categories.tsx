@@ -1,27 +1,30 @@
 import React from 'react';
+import useWhyDidYouUpdate from 'ahooks/lib/useWhyDidYouUpdate';
 
 type CategoriesPropsType = {
   value: number;
-  onChangeCategory: any /**Позже типизируем */;
+  onChangeCategory: (index: number) => void;
 };
 
-const Categories: React.FC<CategoriesPropsType> = ({ value, onChangeCategory }) => {
-  const arrCategories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
+const arrCategories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 
-  return (
-    <div className="categories">
-      <ul>
-        {arrCategories.map((categoryName, index) => (
-          <li
-            key={index}
-            onClick={() => onChangeCategory(index)}
-            className={value === index ? 'active' : ''}>
-            {categoryName}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+export const Categories: React.FC<CategoriesPropsType> = React.memo(
+  ({ value, onChangeCategory }) => {
+    useWhyDidYouUpdate('Categories', { value, onChangeCategory });
 
-export default Categories;
+    return (
+      <div className="categories">
+        <ul>
+          {arrCategories.map((categoryName, index) => (
+            <li
+              key={index}
+              onClick={() => onChangeCategory(index)}
+              className={value === index ? 'active' : ''}>
+              {categoryName}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  },
+);

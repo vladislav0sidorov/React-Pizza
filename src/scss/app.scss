@@ -72,6 +72,11 @@ body {
   }
 }
 
+.container__cart {
+  width: $container__cart-width;
+  margin: 0 auto;
+}
+
 .cart {
   &__top {
     display: flex;
@@ -176,6 +181,21 @@ body {
         svg {
           path:first-of-type {
             display: none;
+          }
+        }
+        &:disabled {
+          opacity: 0.4;
+          border-color: #8d8d8d;
+
+          svg path {
+            fill: #8d8d8d;
+          }
+
+          &:hover {
+            background-color: transparent;
+          }
+          &:active {
+            transform: none;
           }
         }
       }

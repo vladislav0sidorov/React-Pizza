@@ -1,11 +1,13 @@
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import Search from './Search';
-import pizzaLogo from '../assets/img/pizza-logo.svg';
-import { selectCart } from '../redux/slices/cartSlice';
+import { Search } from '../components';
 
-function Header() {
+import pizzaLogo from '../assets/img/pizza-logo.svg';
+import { selectCart } from '../redux/cart/selectors';
+
+export const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(selectCart);
 
   const totalCount = items.reduce(
@@ -13,6 +15,15 @@ function Header() {
     0,
   );
   const location = useLocation();
+  const isMountedJsonCart = React.useRef(false);
+
+  React.useEffect(() => {
+    if (isMountedJsonCart.current) {
+      const jsonCart = JSON.stringify(items);
+      localStorage.setItem('cart', jsonCart);
+    }
+    isMountedJsonCart.current = true;
+  }, [items]);
 
   return (
     <div className="header">
@@ -26,7 +37,7 @@ function Header() {
             </div>
           </div>
         </Link>
-        <Search />
+        {location.pathname !== '/cart' && <Search />}
         <div className="header__cart">
           {location.pathname !== '/cart' && (
             <Link to="cart" className="button button--cart">
@@ -67,6 +78,4 @@ function Header() {
       </div>
     </div>
   );
-}
-
-export default Header;
+};

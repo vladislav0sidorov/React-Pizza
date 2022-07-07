@@ -12,6 +12,7 @@
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
+    "ahooks": "^3.5.0",
     "axios": "^0.27.2",
     "lodash.debounce": "^4.0.8",
     "qs": "^6.10.5",
