@@ -28,7 +28,7 @@ body {
     font-weight: 800;
     margin: 55px 0;
     @media (max-width: 999px) {
-      margin: 15px 0;
+      margin: 40px 0;
     }
   }
 
@@ -152,13 +152,11 @@ body {
   }
 
   &__item {
-    margin: 20px 0;
+    margin: 31px 0;
     &-body {
       padding: 20px 0 0 0;
       width: 100%;
       border-top: 1px solid $more-gray-line;
-      @media (max-width: 928px) {
-      }
     }
     &-body--upside {
       display: flex;
