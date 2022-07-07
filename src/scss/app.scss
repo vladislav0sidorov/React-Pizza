@@ -435,3 +435,31 @@ body {
     color: #777777;
   }
 }
+.pizza-cart__body {
+  text-align: center;
+  h1 {
+    font-size: 36px;
+    margin: 0 0 32px 0;
+  }
+  p {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 27px;
+    letter-spacing: 0.015em;
+    color: $orange;
+  }
+}
+.pizza-body__image {
+  position: relative;
+  overflow: hidden;
+  padding: 0 0 58% 0;
+  margin: 0 0 32px 0;
+  img {
+    position: absolute;
+    top: 0;
+    left: 22%;
+
+    height: 100%;
+    object-fit: cover;
+  }
+}

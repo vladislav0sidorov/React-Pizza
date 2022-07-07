@@ -27,9 +27,13 @@ const PizzaCard: React.FC = () => {
   }
   return (
     <div className="container">
-      <img src={pizza.imageUrl} alt="pizza-image" />
-      <h1>{pizza.title}</h1>
-      <p> {pizza.price} ₽</p>
+      <div className="pizza-cart__body">
+        <h1>{pizza.title}</h1>
+        <div className="pizza-body__image">
+          <img src={pizza.imageUrl} alt="pizza-image" />
+        </div>
+        <p> {pizza.price} ₽</p>
+      </div>
     </div>
   );
 };
