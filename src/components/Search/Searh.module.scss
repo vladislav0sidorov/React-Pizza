@@ -36,5 +36,8 @@
     @media (max-width: 1000px) {
       margin: 0 0 24px 0;
     }
+    @media (max-width: 365px) {
+      width: 200px;
+    }
   }
 }

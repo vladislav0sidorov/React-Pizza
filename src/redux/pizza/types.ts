@@ -13,6 +13,7 @@ export type PizzaItem = {
   image: string;
   sizes: number[];
   types: number[];
+  imageUrl: string;
 };
 
 export enum Status {

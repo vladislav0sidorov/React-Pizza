@@ -3,3 +3,14 @@
 @import './categories';
 @import './sort';
 @import './pizza-block';
+
+@media (max-width: 1000px) {
+  .categories {
+    width: 100%;
+    overflow: auto;
+
+    ul {
+      width: 785px;
+    }
+  }
+}

@@ -4,9 +4,15 @@
   width: 280px;
   text-align: center;
   justify-self: center;
+  @media (max-width: 374px) {
+    width: 220px;
+  }
 
   &__image {
     width: 260px;
+    @media (max-width: 348px) {
+      width: 220px;
+    }
   }
 
   &__title {
@@ -61,5 +67,8 @@
     font-size: 22px;
     line-height: 27px;
     letter-spacing: 0.015em;
+    @media (max-width: 365px) {
+      font-size: 20px;
+    }
   }
 }

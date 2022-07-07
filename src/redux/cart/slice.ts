@@ -34,6 +34,7 @@ const cartSlice = createSlice({
       if (findItem) {
         findItem.count--;
       }
+      state.totalPrice = calcTotalPrice(state.items);
     },
 
     removeItemPizza(state, action: PayloadAction<string>) {

@@ -11,7 +11,9 @@
   transition: background-color $duration ease-in-out, border-color $duration ease-in-out;
   border: 1px solid transparent;
   @include noselect();
-
+  @media (max-width: 375px) {
+    padding: 6px 12px;
+  }
   &,
   span {
     color: #fff;
@@ -42,6 +44,11 @@
     min-width: 32px;
     padding: 0;
     border-width: 2px;
+    @media (max-width: 372px) {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+    }
   }
 
   &--black {

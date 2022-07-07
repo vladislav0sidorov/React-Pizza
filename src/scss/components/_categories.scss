@@ -1,13 +1,13 @@
 @import '../variables';
-:last-child
-.categories {
+:last-child .categories {
+  margin: 0 0 24px 0;
+  padding: 0 20px;
   ul {
     display: flex;
-    flex-wrap: wrap;
+
     justify-content: center;
-    @media (max-width: 1309px) {
+    @media (max-width: 1338px) {
       margin: 0 0 24px 0;
-      
     }
 
     li {
@@ -31,11 +31,6 @@
       &.active {
         background-color: #282828;
         color: #fff;
-      }
-      
-
-      @media (max-width: 943px) {
-        margin: 0 0 16px 0;
       }
     }
     li:last-child {

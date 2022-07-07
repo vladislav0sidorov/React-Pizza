@@ -9,4 +9,25 @@
   .discription {
     font-size: 22px;
   }
+  @media (max-width: 701px) {
+    padding: 60px;
+  }
+  @media (max-width: 621px) {
+    h1 {
+      font-size: 36px;
+      margin: 0 0 8px 0;
+    }
+    span {
+      font-size: 64px;
+    }
+  }
+  @media (max-width: 349px) {
+    h1 {
+      font-size: 30px;
+      margin: 0 0 8px 0;
+    }
+    span {
+      font-size: 64px;
+    }
+  }
 }

@@ -10,10 +10,7 @@ import { selectCart } from '../redux/cart/selectors';
 export const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(selectCart);
 
-  const totalCount = items.reduce(
-    (sum: number, item: any /*Позже доделаем*/) => sum + item.count,
-    0,
-  );
+  const totalCount = items.reduce((sum: number, item) => sum + item.count, 0);
   const location = useLocation();
   const isMountedJsonCart = React.useRef(false);
 

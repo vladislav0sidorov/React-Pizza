@@ -1,19 +1,23 @@
 import React from 'react';
+import qs from 'qs';
 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components';
+import { Categories, Sort, PizzaBlock, Skeleton, Pagination, arrSortList } from '../components';
 
 import { useAppDispatch } from '../redux/store';
 import { selectFilter } from '../redux/filter/selectors';
 import { selectPizzaData } from '../redux/pizza/selectors';
-import { setCategoryId, setCurrentPage } from '../redux/filter/slice';
+import { setCategoryId, setCurrentPage, setFilters } from '../redux/filter/slice';
 import { fetchPizzasById } from '../redux/pizza/asyncActions';
+import { PizzaItem, SearchPizzaParams } from '../redux/pizza/types';
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isSearch = React.useRef(false);
+  const isMountedJsonCart = React.useRef(false);
 
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzaData);
@@ -45,23 +49,23 @@ const Home: React.FC = () => {
     );
   };
 
-  // //! Если был первый рендер - проверяем URl-параметры и сохраняем в Redux
-  // React.useEffect(() => {
-  //   if (window.location.search) {
-  //     const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
-  //     const sort = arrSortList.find((obj) => obj.sortProperty === params.sortBy);
-  //     dispatch(
-  //       setFilters({
-  //         ...params,
-  //         sort: sort || arrSortList[0],
-  //         searchValue: params.search,
-  //         categoryId: Number(params.category),
-  //         currentPage: Number(params.currentPage),
-  //       }),
-  //     );
-  //     isSearch.current = true;
-  //   }
-  // }, []);
+  //! Если был первый рендер - проверяем URl-параметры и сохраняем в Redux
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
+      const sort = arrSortList.find((obj) => obj.sortProperty === params.sortBy);
+      dispatch(
+        setFilters({
+          ...params,
+          sort: sort || arrSortList[0],
+          searchValue: params.search,
+          categoryId: Number(params.category),
+          currentPage: Number(params.currentPage),
+        }),
+      );
+      isSearch.current = true;
+    }
+  }, []);
 
   //* mockapi некорректно присылает пиццы
   //! Если был первый рендер - запрашиваем пиццы
@@ -73,20 +77,20 @@ const Home: React.FC = () => {
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  // //! Если изменили параметры и был первый рендер
-  // React.useEffect(() => {
-  //   if (isMounted.current) {
-  //     const queryString = qs.stringify({
-  //       sortProperty: sort.sortProperty,
-  //       categoryId,
-  //       currentPage,
-  //     });
-  //     navigate(`?${queryString}`);
-  //   }
-  //   isMounted.current = true;
-  // }, [categoryId, sort.sortProperty, currentPage]);
+  //! Если изменили параметры и был первый рендер
+  React.useEffect(() => {
+    if (isMountedJsonCart.current) {
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+        currentPage,
+      });
+      navigate(`?${queryString}`);
+    }
+    isMountedJsonCart.current = true;
+  }, [categoryId, sort.sortProperty, currentPage]);
 
-  const pizzasItemsSmallCode = items.map((objPizzas: any /**Позже */) => (
+  const pizzasItemsSmallCode = items.map((objPizzas) => (
     <PizzaBlock {...objPizzas} key={objPizzas.id} image={objPizzas.imageUrl} />
   ));
   const skeletons = [...new Array(8)].map((_, index) => <Skeleton key={index} />);

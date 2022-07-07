@@ -3,6 +3,9 @@
 .header {
   border-bottom: 1px solid $gray-line;
   padding: 40px 0;
+  @media (max-width: 999px) {
+    padding: 30px 0 0 0;
+  }
 
   .container {
     display: flex;
@@ -14,7 +17,6 @@
       flex-direction: column;
       justify-content: center;
     }
-
   }
 
   &__logo {
@@ -35,7 +37,7 @@
     p {
       color: #7b7b7b;
     }
-    
+
     @media (max-width: 1000px) {
       margin: 0 0 24px 0;
     }

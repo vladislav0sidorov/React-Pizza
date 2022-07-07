@@ -1,4 +1,9 @@
 .paginate {
+  @media (max-width: 780px) {
+    display: flex;
+    justify-content: center;
+  }
+
   li {
     display: inline-block;
 

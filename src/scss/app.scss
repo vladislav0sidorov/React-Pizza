@@ -15,15 +15,21 @@ body {
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
+  @media (max-width: 999px) {
+    margin: 25px auto;
+    width: calc(100vw - 50px);
+  }
 }
 
 .content {
   padding: 40px 0;
-
   &__title {
     font-size: 36px;
     font-weight: 800;
-    margin: 35px 0;
+    margin: 55px 0;
+    @media (max-width: 999px) {
+      margin: 15px 0;
+    }
   }
 
   &__items {
@@ -53,7 +59,7 @@ body {
     justify-content: space-between;
     flex-wrap: wrap;
 
-    @media (max-width: 1309px) {
+    @media (max-width: 1338px) {
       flex-direction: column;
     }
   }
@@ -75,6 +81,9 @@ body {
 .container__cart {
   width: $container__cart-width;
   margin: 0 auto;
+  @media (max-width: 999px) {
+    width: 84%;
+  }
 }
 
 .cart {
@@ -107,12 +116,21 @@ body {
     align-items: center;
     cursor: pointer;
     @include noselect();
+    @media (max-width: 515px) {
+      svg {
+        height: 30px;
+        width: 30px;
+      }
+    }
 
     span {
       display: inline-block;
       margin-left: 7px;
       color: #b6b6b6;
       font-size: 18px;
+      @media (max-width: 629px) {
+        display: none;
+      }
     }
 
     span,
@@ -134,18 +152,30 @@ body {
   }
 
   &__item {
-    display: flex;
-    width: 100%;
-    border-top: 1px solid $gray-line;
-    padding-top: 30px;
-    margin-top: 30px;
-
-    &-img {
+    margin: 20px 0;
+    &-body {
+      padding: 20px 0 0 0;
+      width: 100%;
+      border-top: 1px solid $more-gray-line;
+      @media (max-width: 928px) {
+      }
+    }
+    &-body--upside {
       display: flex;
-      align-items: center;
-      margin-right: 15px;
-      width: 10%;
+      margin: 0 0 12px 0;
+      padding: 0 0 12px 0;
+      border-bottom: 1px solid $gray-line;
+    }
+    &-body--downside {
+      display: flex;
+      justify-content: space-between;
+    }
 
+    .pizza-block-body {
+      display: flex;
+      flex: auto;
+    }
+    &-img {
       img {
         width: 80px;
         height: 80px;
@@ -154,9 +184,9 @@ body {
 
     &-info {
       display: flex;
-      flex-direction: column;
       justify-content: center;
-      width: 40%;
+      flex-direction: column;
+      margin: 0 0 0 15px;
 
       h3 {
         font-weight: bold;
@@ -174,8 +204,11 @@ body {
     &-count {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 13%;
+
+      b {
+        text-align: center;
+        min-width: 40px;
+      }
 
       &-minus {
         svg {
@@ -208,8 +241,6 @@ body {
     &-price {
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 33%;
 
       b {
         font-weight: bold;
@@ -223,6 +254,9 @@ body {
       align-items: center;
       justify-content: flex-end;
       width: 4%;
+      @media (max-width: 372px) {
+        align-items: flex-start;
+      }
 
       .button {
         border-color: darken($color: $gray-line, $amount: 10);
@@ -257,6 +291,14 @@ body {
     &-details {
       display: flex;
       justify-content: space-between;
+      @media (max-width: 731px) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        span {
+          margin: 0 0 16px 0;
+        }
+      }
 
       span {
         font-size: 22px;
@@ -267,12 +309,25 @@ body {
           }
         }
       }
+      @media (max-width: 338px) {
+        span {
+          font-size: 20px;
+        }
+      }
     }
 
     &-buttons {
       display: flex;
       justify-content: space-between;
       margin-top: 40px;
+      @media (max-width: 711px) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .go-back-btn {
+          margin: 0 0 16px 0;
+        }
+      }
 
       .go-back-btn {
         display: flex;
@@ -316,14 +371,17 @@ body {
   }
 
   &--empty {
-    margin: 60px auto;
-    width: 560px;
+    padding: 0 25px;
+    margin: 30px auto;
+    max-width: 510px;
     text-align: center;
 
     h2 {
+      line-height: 42px;
       font-size: 32px;
       font-weight: 700;
       margin-bottom: 10px;
+      margin: 0 0 16px 0;
     }
 
     p {
@@ -331,22 +389,30 @@ body {
       line-height: 145.4%;
       letter-spacing: 0.01em;
       color: #777777;
+      margin: 0 0 45px 0;
     }
 
     icon {
       position: relative;
       top: 2px;
     }
-
+    .cart--empty__image {
+      position: relative;
+      overflow: hidden;
+      padding: 0 0 58% 0;
+      margin: 0 0 60px 0;
+    }
     img {
-      display: block;
-      width: 300px;
-      margin: 45px auto 60px;
+      position: absolute;
+      top: 0;
+      left: 21%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .button--black {
       padding: 12px 0 14px;
-      width: 230px;
+      width: 220px;
       margin: 0 auto;
       font-weight: 600;
       font-size: 18px;

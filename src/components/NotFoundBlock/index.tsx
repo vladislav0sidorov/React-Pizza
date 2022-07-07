@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Header } from '../../components';
-
 import styles from './NotFoundBlock.module.scss';
 
 export const NotFoundBlock: React.FC = () => {
