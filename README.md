@@ -19,4 +19,4 @@ Axios, debounce, qs, sass, firebase, redux-toolkit,   react-router-dom
 
 Запуск приложения
 
-### `npm run dev`
+### `npm start`
