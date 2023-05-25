@@ -3,8 +3,8 @@
 ## Стек проекта
 React + TypeScript, Redux, MockAPI
 
-## Использующиемся библиотеки
-Axios, debounce, qs, sass, firebase, redux-toolkit,   react-router-dom
+## Использующиеся библиотеки
+Axios, debounce, qs, sass, firebase, redux-toolkit, react-router-dom
 
 ## Проделанная работа
 Создал главную страницу, корзину, простую карточку продукта, страницу 404;
